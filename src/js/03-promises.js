@@ -4,6 +4,7 @@ const formEl = document.querySelector('.form');
 const delay = document.querySelector('input[name="delay"]');
 const inputStep = document.querySelector('input[name="step"]');
 const inputAmount = document.querySelector('input[name="amount"]');
+const btnEl = document.querySelector('button[type="submit"]');
 
 formEl.addEventListener('click', handleCreateProm);
 
