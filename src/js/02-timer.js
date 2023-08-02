@@ -3,7 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import Notiflix from 'notiflix';
 
-const selector = document.querySelector('input#datetime-picker');
+const inputDateEl = document.querySelector('input#datetime-picker');
 const btnStartEl = document.querySelector('[data-start]');
 const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
@@ -25,11 +25,26 @@ const options = {
     if (currentDifference < Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
       btnStartEl.setAttribute('disabled', true);
-    } else {
-      btnStartEl.setAttribute('disabled', false);
     }
+    //  else {
+    // btnStartEl.setAttribute('disabled', false);
+    // }
   },
 };
+
+flatpickr(inputDateEl, options);
+
+btnStartEl.addEventListener('click', handleBtnStart);
+
+//   const currentDifference = flatpickr.parseDate(inputDateEl.value);
+//   const currentDate = Date.now();
+//   timeDifference = currentDifference - currentDate;
+
+//   if (timeDifference <= 0) {
+//     Notiflix.Notify.failure('Please choose a date in the future');
+//     return;
+//   }
+// });
 
 // function currentDifference(selectedDates) {
 //   timeDifference = selectedDates.getTime() - currentDate;
@@ -40,19 +55,6 @@ const options = {
 //   secondsEl.textContent = seconds;
 //   btnStartEl.removeAttribute('disabled');
 // }
-
-flatpickr(selector, options);
-
-btnStartEl.addEventListener('click', () => {
-  const currentDifference = flatpickr.parseDate(selector.value);
-  const currentDate = Date.now();
-  timeDifference = currentDifference - currentDate;
-
-  if (timeDifference <= 0) {
-    Notiflix.Notify.failure('Please choose a date in the future');
-    return;
-  }
-});
 
 function onBtnStartTimer() {
   timerId = setInterval(startTimer, 1000);
@@ -73,7 +75,7 @@ function onBtnStartTimer() {
 //   }
 // }
 
-function addLeadingZero(value) {
+function addZero(value) {
   return String(value).padStart(2, '0');
 }
 
@@ -85,15 +87,13 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = addLeadingZero(Math.floor(ms / day));
+  const days = addZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = addLeadingZero(Math.floor((ms % day) / hour));
+  const hours = addZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  const minutes = addZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = addLeadingZero(
-    Math.floor((((ms % day) % hour) % minute) / second)
-  );
+  const seconds = addZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
