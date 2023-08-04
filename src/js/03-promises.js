@@ -6,7 +6,7 @@ const inputStep = document.querySelector('input[name="step"]');
 const inputAmount = document.querySelector('input[name="amount"]');
 const btnEl = document.querySelector('button[type="submit"]');
 
-formEl.addEventListener('click', handleCreateProm);
+formEl.addEventListener('submit', handleCreateProm);
 
 function handleCreateProm(event) {
   event.preventDefault();
@@ -16,6 +16,11 @@ function handleCreateProm(event) {
   let inputDelay = Number(delay.value);
   let inputStep = Number(step.value);
   let inputAmount = Number(amount.value);
+
+  if (inputDelay < 0 || inputStep < 0 || inputAmount <= 0) {
+    Notiflix.Notify.warning('All your date more than zero');
+    return;
+  }
 
   for (let i = 1; i <= inputAmount; i += 1) {
     createPromise(i, inputDelay)
